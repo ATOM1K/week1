@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <!-- ChangeSet 1: Создание таблицы users -->
+    <changeSet id="001-create-user-table" author="your-name">
+        <createTable tableName="users">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="middle_name" type="varchar(100)"/>
+            <column name="phone" type="varchar(20)"/>
+            <column name="email" type="varchar(255)"/>
+            <column name="passport_series" type="varchar(4)"/>
+            <column name="passport_number" type="varchar(6)"/>
+            <column name="inn" type="varchar(12)"/>
+            <column name="marital_status" type="varchar(50)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- ChangeSet 2: Создание таблицы addresses -->
+    <changeSet id="002-create-address-table" author="your-name">
+        <createTable tableName="addresses">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints foreignKeyName="fk_address_user" references="users(id)"/>
+            </column>
+            <column name="street" type="varchar(255)"/>
+            <column name="city" type="varchar(100)"/>
+            <column name="postal_code" type="varchar(20)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- ChangeSet 3: Создание индекса по first_name в таблице users -->
+    <changeSet id="003-create-index-on-user-name" author="your-name">
+        <createIndex tableName="users" indexName="idx_user_name">
+            <column name="first_name"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
