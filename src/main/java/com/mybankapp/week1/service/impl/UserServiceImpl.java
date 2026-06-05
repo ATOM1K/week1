@@ -9,12 +9,15 @@ import com.mybankapp.week1.repository.UserRepository;
 import com.mybankapp.week1.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -32,8 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public List<UserDto> findAll() {
-        return userRepository.findAll().stream()
-                .map(userMapper::toDto)
+        return userRepository.findAll().stream().map(userMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -83,7 +85,7 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDto) {
         Long userId = userDto.getId();
         User existingUser = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("Пользователь с ID " + userId + " не найден"));
+                .orElseThrow(() -> new NoSuchElementException(String.format("Пользователь с ID %d не найден", userId)));
 
         // Обновляем основные данные пользователя
         userMapper.updateEntityFromDto(userDto, existingUser);
@@ -111,9 +113,7 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.existsById(id)) {
             throw new NoSuchElementException("Пользователь с ID " + id + " не найден");
         }
-        // Сначала удаляем все адреса пользователя
-        addressRepository.deleteByUserId(id);
-        // Затем удаляем самого пользователя
+        // удаляем самого пользователя
         userRepository.deleteById(id);
     }
 }
