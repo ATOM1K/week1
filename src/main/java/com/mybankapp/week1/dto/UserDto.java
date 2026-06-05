@@ -1,8 +1,14 @@
 package com.mybankapp.week1.dto;
 
-import lombok.Data;
+import lombok.*;
 import java.util.List;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Data
 public class UserDto {
     private Long id;
