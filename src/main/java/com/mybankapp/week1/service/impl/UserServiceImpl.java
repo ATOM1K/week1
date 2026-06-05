@@ -10,27 +10,20 @@ import com.mybankapp.week1.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
-@Service
-@Slf4j
-public class UserServiceImpl implements UserService {
+    @Service
+    @RequiredArgsConstructor
+    @Slf4j
+    public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final AddressRepository addressRepository;
-    private final UserMapper userMapper;
-
-    public UserServiceImpl(UserRepository userRepository,
-                           AddressRepository addressRepository,
-                           UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.addressRepository = addressRepository;
-        this.userMapper = userMapper;
-    }
+        private final UserRepository userRepository;
+        private final AddressRepository addressRepository;
+        private final UserMapper userMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -43,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserDto findById(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Пользователь с ID " + id + " не найден"));
+        .orElseThrow(() -> new NoSuchElementException(String.format("Пользователь с ID " + id + " не найден")));
         return userMapper.toDto(user);
     }
 
@@ -111,7 +104,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteById(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new NoSuchElementException("Пользователь с ID " + id + " не найден");
+            throw new NoSuchElementException(String.format("Пользователь с ID " + id + " не найден"));
         }
         // удаляем самого пользователя
         userRepository.deleteById(id);
