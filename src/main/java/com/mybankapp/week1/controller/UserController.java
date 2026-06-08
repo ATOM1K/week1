@@ -11,16 +11,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor; // Импортируем Lombok
+
+/**
+ * REST-контроллер для управления пользователями.
+ */
 @RestController
 @RequestMapping("/api/users")
 @Tag(name = "User Management", description = "API для управления пользователями")
+@RequiredArgsConstructor // Генерирует конструктор с одним final-полем: UserService
 public class UserController {
 
-    private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService; // Неявная инициализация через Lombok
 
     @GetMapping
     @Operation(

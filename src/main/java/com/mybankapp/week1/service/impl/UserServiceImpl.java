@@ -36,7 +36,7 @@ import lombok.RequiredArgsConstructor;
     @Transactional(readOnly = true)
     public UserDto findById(Long id) {
         User user = userRepository.findById(id)
-        .orElseThrow(() -> new NoSuchElementException(String.format("Пользователь с ID " + id + " не найден")));
+        .orElseThrow(() -> new NoSuchElementException(String.format("Пользователь с ID %d не найден", id)));
         return userMapper.toDto(user);
     }
 

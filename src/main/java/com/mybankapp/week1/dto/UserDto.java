@@ -3,13 +3,10 @@ package com.mybankapp.week1.dto;
 import lombok.*;
 import java.util.List;
 
-
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Data
 public class UserDto {
     private Long id;
     private String firstName;
