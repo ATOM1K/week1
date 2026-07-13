@@ -9,6 +9,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.mybankapp.week1.dto.UserSearchRequest;
+import com.mybankapp.week1.dto.PaginatedResponse;
+import com.mybankapp.week1.dto.UserResponse;
+import com.mybankapp.week1.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 import lombok.RequiredArgsConstructor; // Импортируем Lombok
@@ -97,5 +107,10 @@ public class UserController {
     ) {
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+    //добавил
+    @GetMapping("/search")
+    public PaginatedResponse<UserResponse> searchUsers(@ModelAttribute UserSearchRequest request) {
+        return userService.searchUsers(request);
     }
 }
